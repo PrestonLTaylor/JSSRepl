@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Server", "JSSR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation.Client", "JSSRepl\Presentation.Client\Presentation.Client.csproj", "{110D5343-4531-4FC7-B369-A5BE1255BCA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "JSSRepl\Domain\Domain.csproj", "{221BB8CC-54F6-4CD4-ABD7-1DE55C930B4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "JSSRepl\Domain\Domain.csproj", "{221BB8CC-54F6-4CD4-ABD7-1DE55C930B4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "JSSRepl\Application\Application.csproj", "{71325F1A-F788-425B-A098-2E4F64BEB1D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "JSSRepl\Application\Application.csproj", "{71325F1A-F788-425B-A098-2E4F64BEB1D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
