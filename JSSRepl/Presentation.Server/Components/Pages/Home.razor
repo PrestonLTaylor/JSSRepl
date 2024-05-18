@@ -1,7 +1,36 @@
 ﻿@page "/"
+@inject IJSSService jss
 
 <PageTitle>JSS Repl</PageTitle>
 
 <h1>JSS Repl</h1>
 
-<p>TODO: Insert the REPL console here!</p>
+<article class="content">
+    <EditForm class="repl-console" EditContext="editContext" OnSubmit="Execute" FormName="REPLConsole" Enhance>
+        <InputTextArea class="form-control script-input" spellcheck="false" placeholder="Enter your script here..." @bind-Value="Script" />
+
+        <button class="btn btn-outline-secondary execute-button" type="submit">Execute</button>
+    </EditForm>
+    <small class="form-text text-muted">Executed using the JSS JavaScript engine.</small> <br/>
+
+    <input type="text" class="form-control-plaintext" readonly value="@Result">
+</article>
+
+@code {
+    protected override void OnInitialized()
+    {
+        editContext = new(Script);
+    }
+
+    private void Execute()
+    {
+        Result = jss.ExecuteStringAsJavaScript(Script);
+    }
+
+    [SupplyParameterFromForm]
+    private string Script { get; set; } = "";
+
+    private string Result { get; set; } = "";
+
+    private EditContext? editContext;
+}
