@@ -1,0 +1,14 @@
+name: Build using Docker
+
+on:
+  push:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build using Docker
+      run: docker build . --file ./JSSRepl/Presentation.Server/Dockerfile --tag ci-build:$(date +%s)
