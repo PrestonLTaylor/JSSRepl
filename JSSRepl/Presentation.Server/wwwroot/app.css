@@ -10,9 +10,15 @@ a, .btn-link {
     color: #006bb7;
 }
 
+#main
+{
+    padding: 0 !important;
+}
+
 .content {
     /* Centers our content using 60% of the width (FIXME: should be larger on smaller screens) */
     margin: 0 auto;
+
     max-width: 50%;
 }
 
@@ -54,6 +60,13 @@ h1:focus {
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
+}
+
+.title-bar {
+    background-color: #212529;
+    color: #fff;
+
+    padding: 1rem;
 }
 
 .repl-console
