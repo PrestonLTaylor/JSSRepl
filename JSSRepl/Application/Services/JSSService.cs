@@ -4,7 +4,7 @@ using JSS.Lib.Execution;
 using Microsoft.Extensions.Logging;
 using SyntaxErrorException = JSS.Lib.SyntaxErrorException;
 
-namespace Presentation.Server.Services;
+namespace Application.Services;
 
 /// <inheritdoc cref="IJSSService"/>
 public sealed class JSSService : IJSSService

@@ -1,6 +1,6 @@
 using Serilog;
 using Presentation.Server.Components;
-using Presentation.Server.Services;
+using Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +8,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
-builder.Services.AddScoped<IJSSService, JSSService>();
+builder.Services.AddApplicationServices();
 
 builder.Host.UseSerilog((ctx, cfg) => cfg.ReadFrom.Configuration(builder.Configuration));
 

@@ -1,4 +1,4 @@
-﻿namespace Presentation.Server.Services;
+﻿namespace Application.Services;
 
 /// <summary>
 /// A service for executing strings as JavaScript using the JSS engine. <br/>
