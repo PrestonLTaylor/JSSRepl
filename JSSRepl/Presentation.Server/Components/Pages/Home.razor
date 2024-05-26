@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject IJSSService jss
+@inject IGitHubService github
 
 <PageTitle>JSS Repl</PageTitle>
 
@@ -11,15 +12,21 @@
 
         <button class="btn btn-outline-secondary execute-button" type="submit">Execute</button>
     </EditForm>
-    <small class="form-text text-muted">Executed using the JSS JavaScript engine.</small> <br/>
+    <small class="form-text text-muted">Executed using the JSS JavaScript engine (built from <a class="link-primary" href="@BuildCommitLink">@ShortBuildCommitHash</a>).</small> <br />
 
     <input type="text" class="form-control-plaintext" readonly value="@Result">
 </article>
 
 @code {
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         editContext = new(Script);
+
+        // NOTE: We use the latest commit hash from the master branch as that will be the commit used in the latest JSS NuGet package
+        // We also use dependabot so we can easily update the NuGet package so it will be up-to-date
+        var latestCommit = await github.GetLatestCommitAsync();
+        ShortBuildCommitHash = latestCommit.Sha[0..7];
+        BuildCommitLink = latestCommit.HtmlUrl;
     }
 
     private void Execute()
@@ -31,6 +38,9 @@
     private string Script { get; set; } = "";
 
     private string Result { get; set; } = "";
+
+    private string ShortBuildCommitHash { get; set; } = "";
+    private string BuildCommitLink { get; set; } = "";
 
     private EditContext? editContext;
 }
