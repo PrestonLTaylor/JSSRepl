@@ -1,13 +1,14 @@
 ﻿@page "/"
 @inject IJSSService jss
 @inject IGitHubService github
+@rendermode InteractiveServer
 
 <PageTitle>JSS Repl</PageTitle>
 
 <h3 class="title-bar">JSS Repl</h3>
 
 <article class="content">
-    <EditForm class="repl-console" EditContext="editContext" OnSubmit="Execute" FormName="REPLConsole" Enhance>
+    <EditForm class="repl-console" EditContext="editContext" OnSubmit="ExecuteAsync" FormName="REPLConsole" Enhance>
         <InputTextArea class="form-control script-input" spellcheck="false" placeholder="Enter your script here..." @bind-Value="Script" />
 
         <button class="btn btn-outline-secondary execute-button" type="submit">Execute</button>
@@ -29,9 +30,9 @@
         BuildCommitLink = latestCommit.HtmlUrl;
     }
 
-    private void Execute()
+    private async Task ExecuteAsync()
     {
-        var result = jss.ExecuteStringAsJavaScript(Script);
+        var result = await jss.ExecuteStringAsJavaScriptAsync(Script);
         Result = result.Value;
         IsErrorOutput = !result.IsNormalCompletion;
     }
