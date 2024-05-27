@@ -93,7 +93,20 @@ h1:focus {
     border-radius: 0 0 4px 4px;
 }
 
-.execute-button:not(:focus-visible), .script-input:focus {
+.execute-button:not(:focus-visible), .script-input:focus
+{
+    outline: 0;
+    box-shadow: none;
+}
+
+.output
+{
+    resize: none;
+    height: 26rem;
+}
+
+.output:focus
+{
     outline: 0;
     box-shadow: none;
 }
