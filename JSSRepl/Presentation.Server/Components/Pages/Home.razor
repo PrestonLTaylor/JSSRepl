@@ -18,6 +18,11 @@
     <textarea class="output form-control-plaintext @(IsErrorOutput ? "text-danger" : "")" readonly>@Result</textarea>
 </article>
 
+@if (IsLoading)
+{
+    <div class="suspense"></div>
+}
+
 @code {
     protected override async Task OnInitializedAsync()
     {
@@ -32,14 +37,17 @@
 
     private async Task ExecuteAsync()
     {
+        IsLoading = true;
         var result = await jss.ExecuteStringAsJavaScriptAsync(Script);
         Result = result.Value;
         IsErrorOutput = !result.IsNormalCompletion;
+        IsLoading = false;
     }
 
     [SupplyParameterFromForm]
     private string Script { get; set; } = "";
 
+    private bool IsLoading { get; set; } = false;
     private string Result { get; set; } = "";
     private bool IsErrorOutput { get; set; } = false;
 
