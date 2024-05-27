@@ -1,4 +1,6 @@
-﻿namespace Application.Services;
+﻿using Domain;
+
+namespace Application.Services;
 
 /// <summary>
 /// A service for executing strings as JavaScript using the JSS engine. <br/>
@@ -11,6 +13,6 @@ public interface IJSSService
     /// Executes the provided string <paramref name="scriptCode"/> as JavaScript code in the JSS engine.
     /// </summary>
     /// <param name="script">The JavaScript script to be executed by JSS.</param>
-    /// <returns>A string that represents the result from executing the script.</returns>
-    public string ExecuteStringAsJavaScript(string scriptCode);
+    /// <returns>The result of executing <paramref name="scriptCode"/> in the JSS engine.</returns>
+    public ExecutionResult ExecuteStringAsJavaScript(string scriptCode);
 }

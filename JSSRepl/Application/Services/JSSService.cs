@@ -1,4 +1,5 @@
-﻿using JSS.Common;
+﻿using Domain;
+using JSS.Common;
 using JSS.Lib;
 using JSS.Lib.Execution;
 using Microsoft.Extensions.Logging;
@@ -25,7 +26,7 @@ public sealed class JSSService : IJSSService
     }
 
     /// <inheritdoc/>
-    public string ExecuteStringAsJavaScript(string scriptCode)
+    public ExecutionResult ExecuteStringAsJavaScript(string scriptCode)
     {
         _logger.LogInformation("{Script} was provided by user, attempting to execute.", scriptCode);
 
@@ -34,16 +35,17 @@ public sealed class JSSService : IJSSService
             var parser = new Parser(scriptCode);
             var script = parser.Parse(_vm);
             var completion = script.ScriptEvaluation();
-            return Print.CompletionToString(_vm, completion);
+            var value = Print.CompletionToString(_vm, completion);
+            return new ExecutionResult(value, completion.IsNormalCompletion());
         }
         catch (SyntaxErrorException ex)
         {
-            return $"Uncaught {ex.Message}";
+            return new ExecutionResult($"Uncaught {ex.Message}", IsNormalCompletion: false);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "An unexpected exception was raised by JSS.");
-            return $"Internal Error! Reason: {ex}";
+            return new ExecutionResult($"Internal Error! Reason: {ex.Message}", IsNormalCompletion: false);
         }
     }
 
