@@ -13,6 +13,6 @@ public interface IJSSService
     /// Executes the provided string <paramref name="scriptCode"/> as JavaScript code in the JSS engine.
     /// </summary>
     /// <param name="script">The JavaScript script to be executed by JSS.</param>
-    /// <returns>The result of executing <paramref name="scriptCode"/> in the JSS engine.</returns>
-    public ExecutionResult ExecuteStringAsJavaScript(string scriptCode);
+    /// <returns>A task containing the result of executing <paramref name="scriptCode"/> in the JSS engine.</returns>
+    public Task<ExecutionResult> ExecuteStringAsJavaScriptAsync(string scriptCode);
 }

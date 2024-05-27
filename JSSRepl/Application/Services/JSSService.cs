@@ -26,17 +26,13 @@ public sealed class JSSService : IJSSService
     }
 
     /// <inheritdoc/>
-    public ExecutionResult ExecuteStringAsJavaScript(string scriptCode)
+    public async Task<ExecutionResult> ExecuteStringAsJavaScriptAsync(string scriptCode)
     {
         _logger.LogInformation("{Script} was provided by user, attempting to execute.", scriptCode);
 
         try
         {
-            var parser = new Parser(scriptCode);
-            var script = parser.Parse(_vm);
-            var completion = script.ScriptEvaluation();
-            var value = Print.CompletionToString(_vm, completion);
-            return new ExecutionResult(value, completion.IsNormalCompletion());
+            return await Task.Run(() => TryToExecuteStringAsJavaScript(scriptCode));
         }
         catch (SyntaxErrorException ex)
         {
@@ -47,6 +43,16 @@ public sealed class JSSService : IJSSService
             _logger.LogError(ex, "An unexpected exception was raised by JSS.");
             return new ExecutionResult($"Internal Error! Reason: {ex.Message}", IsNormalCompletion: false);
         }
+    }
+
+    /// <inheritdoc cref="ExecuteStringAsJavaScriptAsync(string)"/>
+    private ExecutionResult TryToExecuteStringAsJavaScript(string scriptCode)
+    {
+        var parser = new Parser(scriptCode);
+        var script = parser.Parse(_vm);
+        var completion = script.ScriptEvaluation();
+        var value = Print.CompletionToString(_vm, completion);
+        return new ExecutionResult(value, completion.IsNormalCompletion());
     }
 
     private readonly ILogger<JSSService> _logger;
