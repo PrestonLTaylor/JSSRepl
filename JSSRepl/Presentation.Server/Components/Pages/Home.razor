@@ -30,7 +30,7 @@
 
         // NOTE: We use the latest commit hash from the master branch as that will be the commit used in the latest JSS NuGet package
         // We also use dependabot so we can easily update the NuGet package so it will be up-to-date
-        var latestCommit = await github.GetLatestCommitAsync();
+        var latestCommit = await github.GetBuildCommitAsync();
         ShortBuildCommitHash = latestCommit.Sha[0..7];
         BuildCommitLink = latestCommit.HtmlUrl;
     }

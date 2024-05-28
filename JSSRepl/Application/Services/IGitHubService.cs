@@ -11,5 +11,5 @@ public interface IGitHubService
     /// Retrieves information on the latest commit from the master branch.
     /// </summary>
     /// <returns>A task containing the latest commit from the master branch.</returns>
-    public Task<GitHubCommit> GetLatestCommitAsync();
+    public Task<GitHubCommit> GetBuildCommitAsync();
 }
