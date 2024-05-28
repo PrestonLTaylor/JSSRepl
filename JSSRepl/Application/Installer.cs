@@ -13,6 +13,8 @@ public static class Installer
         services.AddTransient<IGitHubClient, GitHubClient>((_) => new GitHubClient(new ProductHeaderValue(JSSREPL_GITHUB_OWNER)));
         services.AddTransient<IGitHubService, GitHubService>();
 
+        services.AddMemoryCache();
+
         return services;
     }
 
