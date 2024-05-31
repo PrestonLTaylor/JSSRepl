@@ -1,5 +1,5 @@
 :root {
-    --console-height: 16em;
+    --console-height: 16rem;
 }
 
 * {
@@ -84,6 +84,9 @@ h1:focus {
 .script-input {
     height: var(--console-height);
     resize: none;
+
+    font-family: var(--bs-font-monospace);
+    font-size: .875em;
 
     padding: .375rem .75rem;
 
