@@ -15,7 +15,10 @@
     </EditForm>
     <small class="form-text text-muted">Executed using the JSS JavaScript engine (built from <a class="link-primary" href="@BuildCommitLink">@ShortBuildCommitHash</a>).</small> <br />
 
-    <textarea class="output form-control-plaintext @(IsErrorOutput ? "text-danger" : "")" readonly>@Result</textarea>
+    @if (ConsoleItems.Count != 0)
+    {
+        <textarea class="output form-control-plaintext @(LatestConsoleItem.IsError ? "text-danger" : "")" readonly>@LatestConsoleItem.Value</textarea>
+    }
 </article>
 
 @if (IsLoading)
@@ -39,17 +42,25 @@
     {
         IsLoading = true;
         var result = await jss.ExecuteStringAsJavaScriptAsync(Script);
-        Result = result.Value;
-        IsErrorOutput = !result.IsNormalCompletion;
+        AddExecutionResultToConsole(result);
         IsLoading = false;
+    }
+
+    private void AddExecutionResultToConsole(ExecutionResult result)
+    {
+        ConsoleItems.Add(new(
+            Value: result.Value,
+            IsError: !result.IsNormalCompletion
+        ));
     }
 
     [SupplyParameterFromForm]
     private string Script { get; set; } = "";
 
     private bool IsLoading { get; set; } = false;
-    private string Result { get; set; } = "";
-    private bool IsErrorOutput { get; set; } = false;
+
+    private List<ConsoleItem> ConsoleItems { get; } = [];
+    private ConsoleItem LatestConsoleItem => ConsoleItems[ConsoleItems.Count - 1];
 
     private string ShortBuildCommitHash { get; set; } = "";
     private string BuildCommitLink { get; set; } = "";
