@@ -1,0 +1,11 @@
+﻿<section class="output-console">
+    @foreach (var Item in Items)
+    {
+        <pre class="output-item @(Item.IsError ? "text-danger" : "")">@Item.Value</pre>
+    }
+</section>
+
+@code {
+    [Parameter]
+    public IReadOnlyList<ConsoleItem> Items { get; set; } = [];
+}
