@@ -10,15 +10,11 @@
 <article class="content">
     <EditForm class="repl-console" EditContext="editContext" OnSubmit="ExecuteAsync" FormName="REPLConsole" Enhance>
         <InputTextArea class="form-control script-input" spellcheck="false" placeholder="Enter your script here..." @bind-Value="Script" />
+        <ConsoleOutput Items=@ConsoleItems />
 
         <button class="btn btn-outline-secondary execute-button" type="submit">Execute</button>
     </EditForm>
     <small class="form-text text-muted">Executed using the JSS JavaScript engine (built from <a class="link-primary" href="@BuildCommitLink">@ShortBuildCommitHash</a>).</small> <br />
-
-    @if (ConsoleItems.Count != 0)
-    {
-        <textarea class="output form-control-plaintext @(LatestConsoleItem.IsError ? "text-danger" : "")" readonly>@LatestConsoleItem.Value</textarea>
-    }
 </article>
 
 @if (IsLoading)
@@ -60,7 +56,6 @@
     private bool IsLoading { get; set; } = false;
 
     private List<ConsoleItem> ConsoleItems { get; } = [];
-    private ConsoleItem LatestConsoleItem => ConsoleItems[ConsoleItems.Count - 1];
 
     private string ShortBuildCommitHash { get; set; } = "";
     private string BuildCommitLink { get; set; } = "";
