@@ -3,6 +3,11 @@
     {
         <pre class="output-item @(Item.IsError ? "text-danger" : "")">@Item.Value</pre>
     }
+
+    @if (Items.Count == 0)
+    {
+        <pre class="output-placeholder">Output goes here...</pre>
+    }
 </section>
 
 @code {
