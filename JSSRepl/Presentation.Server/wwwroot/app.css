@@ -1,7 +1,7 @@
 :root {
     --console-height: 16rem;
     --console-ff: var(--bs-font-monospace);
-    --console-fs: .875rem;
+    --console-fs: .75rem;
 
     --border-color: rgb(108, 117, 125);
     --border-radius: 4px;
@@ -102,8 +102,6 @@ h1:focus {
 .output-console {
     height: var(--console-height);
 
-    font-family: var(--console-ff);
-    font-size: var(--console-fs);
 
     border: 1px solid var(--border-color);
     border-radius: 0 var(--border-radius) 0 0;
@@ -113,11 +111,21 @@ h1:focus {
     overflow-y: scroll;
 }
 
+.output-placeholder {
+    padding: .375rem .75rem;
+
+    font-family: var(--console-ff);
+    font-size: var(--console-fs);
+}
+
 .output-item {
     resize: none;
 
     padding: .375rem .75rem;
     margin: 0;
+
+    font-family: var(--console-ff);
+    font-size: var(--console-fs);
 
     border-width: 0 0 1px 0;
     border-style: solid;
