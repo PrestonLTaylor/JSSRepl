@@ -29,10 +29,19 @@ pre {
 }
 
 .content {
-    /* Centers our content using 60% of the width (FIXME: should be larger on smaller screens) */
+    /* Centers our content using 60% of the width */
     margin: 0 auto;
 
     max-width: 50%;
+    min-width: 450px;
+}
+
+@media screen and (max-width: 500px) {
+    .content {
+        /* Content should take up most of the screen on smaller screen sizes */
+        max-width: 90%;
+        min-width: 0px;
+    }
 }
 
 .btn-primary {
