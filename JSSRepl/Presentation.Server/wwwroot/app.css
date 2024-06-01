@@ -42,6 +42,7 @@ pre {
         max-width: 90%;
         min-width: 0px;
     }
+
 }
 
 .btn-primary {
@@ -94,6 +95,13 @@ h1:focus {
     grid-template-columns: 1fr 1fr;
 }
 
+@media screen and (max-width: 500px) {
+    .repl-console {
+        /* Don't put the input and output side by side on smaller screens */
+        grid-template-columns: 1fr;
+    }
+}
+
 .script-input {
     height: var(--console-height);
     resize: none;
@@ -111,13 +119,24 @@ h1:focus {
 .output-console {
     height: var(--console-height);
 
-
     border: 1px solid var(--border-color);
     border-radius: 0 var(--border-radius) 0 0;
     border-left: 0;
     border-bottom: 0;
 
     overflow-y: scroll;
+}
+
+@media screen and (max-width: 500px) {
+    .script-input {
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+    }
+
+    .output-console {
+        border-radius: 0;
+        border: 1px solid var(--border-color);
+        border-bottom: 0;
+    }
 }
 
 .output-placeholder {
@@ -159,6 +178,12 @@ h1:focus {
 .execute-button:not(:focus-visible), .script-input:focus {
     outline: 0;
     box-shadow: none;
+}
+
+@media screen and (max-width: 500px) {
+    .execute-button {
+        grid-column: unset;
+    }
 }
 
 .suspense {
