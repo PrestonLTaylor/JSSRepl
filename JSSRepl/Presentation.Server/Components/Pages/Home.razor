@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject IJSRuntime js
 @inject IJSSService jss
 @inject IGitHubService github
 @rendermode InteractiveServer
@@ -8,11 +9,11 @@
 <h3 class="title-bar">JSS Repl</h3>
 
 <article class="content">
-    <EditForm class="repl-console" EditContext="editContext" OnSubmit="ExecuteAsync" FormName="REPLConsole" Enhance>
-        <InputTextArea class="form-control script-input" spellcheck="false" placeholder="Enter your script here..." @bind-Value="Script" />
+    <EditForm class="repl-console" EditContext="editContext" OnSubmit="ExecuteAsync"  FormName="REPLConsole" Enhance>
+        <InputTextArea class="form-control script-input" @onkeydown="@(async e => await OnScriptInputKeyDown(e))" spellcheck="false" placeholder="Enter your script here..." @bind-Value="Script" />
         <ConsoleOutput Items=@ConsoleItems />
 
-        <button class="btn btn-outline-secondary execute-button" type="submit">Execute</button>
+        <button class="btn btn-outline-secondary execute-button" type="submit" @ref="buttonReference">Execute (Ctrl+Enter)</button>
     </EditForm>
     <small class="form-text text-muted">Executed using the JSS JavaScript engine (built from <a class="link-primary" href="@BuildCommitLink">@ShortBuildCommitHash</a>).</small> <br />
 </article>
@@ -21,6 +22,8 @@
 {
     <div class="suspense"></div>
 }
+
+<script src="submission.js"></script>
 
 @code {
     protected override async Task OnInitializedAsync()
@@ -32,6 +35,15 @@
         var latestCommit = await github.GetBuildCommitAsync();
         ShortBuildCommitHash = latestCommit.Sha[0..7];
         BuildCommitLink = latestCommit.HtmlUrl;
+    }
+
+    private ElementReference buttonReference;
+    private async Task OnScriptInputKeyDown(KeyboardEventArgs e)
+    {
+        if (e.CtrlKey && e.Key == "Enter")
+        {
+            await js.InvokeVoidAsync("submitForm", buttonReference);
+        }
     }
 
     private async Task ExecuteAsync()
