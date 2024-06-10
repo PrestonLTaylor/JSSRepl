@@ -26,17 +26,23 @@ public sealed class JSSService : IJSSService
     }
 
     /// <inheritdoc/>
-    public async Task<ExecutionResult> ExecuteStringAsJavaScriptAsync(string scriptCode)
+    public async Task<ExecutionResult> ExecuteStringAsJavaScriptAsync(string scriptCode, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("{Script} was provided by user, attempting to execute.", scriptCode);
 
         try
         {
-            return await Task.Run(() => TryToExecuteStringAsJavaScript(scriptCode));
+            var task = Task.Run(() => TryToExecuteStringAsJavaScript(scriptCode), cancellationToken);
+            return await task.WaitAsync(cancellationToken);
         }
         catch (SyntaxErrorException ex)
         {
             return new ExecutionResult($"Uncaught {ex.Message}", IsNormalCompletion: false);
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex, "A script execution timed out.");
+            return new ExecutionResult($"Timeout Error! Reason: A script took too long to execute.", IsNormalCompletion: false);
         }
         catch (Exception ex)
         {

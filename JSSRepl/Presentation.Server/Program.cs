@@ -1,12 +1,15 @@
 using Serilog;
 using Presentation.Server.Components;
 using Application;
+using Domain.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.Configure<JSSOptions>(builder.Configuration.GetSection(JSSOptions.Section));
 
 builder.Services.AddApplicationServices();
 
