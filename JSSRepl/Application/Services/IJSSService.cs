@@ -14,5 +14,5 @@ public interface IJSSService
     /// </summary>
     /// <param name="script">The JavaScript script to be executed by JSS.</param>
     /// <returns>A task containing the result of executing <paramref name="scriptCode"/> in the JSS engine.</returns>
-    public Task<ExecutionResult> ExecuteStringAsJavaScriptAsync(string scriptCode);
+    public Task<ExecutionResult> ExecuteStringAsJavaScriptAsync(string scriptCode, CancellationToken cancellationToken = default);
 }

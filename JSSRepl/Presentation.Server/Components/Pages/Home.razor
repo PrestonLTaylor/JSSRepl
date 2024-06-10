@@ -2,6 +2,7 @@
 @inject IJSRuntime js
 @inject IJSSService jss
 @inject IGitHubService github
+@inject IOptionsMonitor<JSSOptions> jssOptions
 @rendermode InteractiveServer
 
 <PageTitle>JSS Repl</PageTitle>
@@ -49,9 +50,17 @@
     private async Task ExecuteAsync()
     {
         IsLoading = true;
-        var result = await jss.ExecuteStringAsJavaScriptAsync(Script);
+        var cancellationToken = CreateExecutionCancellationToken();
+        var result = await jss.ExecuteStringAsJavaScriptAsync(Script, cancellationToken);
         AddExecutionResultToConsole(result);
         IsLoading = false;
+    }
+
+    private CancellationToken CreateExecutionCancellationToken()
+    {
+        var cancelationTokenSource = new CancellationTokenSource();
+        cancelationTokenSource.CancelAfter(jssOptions.CurrentValue.ScriptTimeoutMilliseconds);
+        return cancelationTokenSource.Token;
     }
 
     private void AddExecutionResultToConsole(ExecutionResult result)
