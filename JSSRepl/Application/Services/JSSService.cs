@@ -32,7 +32,7 @@ public sealed class JSSService : IJSSService
 
         try
         {
-            var task = Task.Run(() => TryToExecuteStringAsJavaScript(scriptCode), cancellationToken);
+            var task = Task.Run(() => TryToExecuteStringAsJavaScript(scriptCode, cancellationToken));
             return await task.WaitAsync(cancellationToken);
         }
         catch (SyntaxErrorException ex)
@@ -52,11 +52,11 @@ public sealed class JSSService : IJSSService
     }
 
     /// <inheritdoc cref="ExecuteStringAsJavaScriptAsync(string)"/>
-    private ExecutionResult TryToExecuteStringAsJavaScript(string scriptCode)
+    private ExecutionResult TryToExecuteStringAsJavaScript(string scriptCode, CancellationToken cancellationToken = default)
     {
         var parser = new Parser(scriptCode);
         var script = parser.Parse(_vm);
-        var completion = script.ScriptEvaluation();
+        var completion = script.ScriptEvaluation(cancellationToken);
         var value = Print.CompletionToString(_vm, completion);
         return new ExecutionResult(value, completion.IsNormalCompletion());
     }
